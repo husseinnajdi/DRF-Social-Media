@@ -76,3 +76,28 @@ class Post(models.Model):
 
     def __str__(self):
         return f"Post by {self.author} , with content:  {self.content}"
+
+
+class PostMedia(models.Model):
+    class MediaType(models.TextChoices):
+        IMAGE = "image", "Image"
+        VIDEO = "video", "Video"
+
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE,
+        related_name="media",
+    )
+    file = models.FileField(upload_to="post_media/", max_length=500)
+    type = models.CharField(max_length=10, choices=MediaType.choices)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        db_table = "post_media"
+        ordering = ["order"]
+        indexes = [
+            models.Index(fields=["post", "order"]),
+        ]
+
+    def __str__(self):
+        return f"{self.type} {self.pk} on post {self.post_id}"
