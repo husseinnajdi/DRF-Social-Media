@@ -1,0 +1,27 @@
+# Najdi Social Backend
+
+REST API for a social media platform with four account types:
+admin, supervisor, normal user and business page.
+
+## Tech stack
+Django, Django REST Framework, PostgreSQL, Redis, JWT, Docker
+
+## Quick start
+    cp .env.example .env
+    docker compose up --build
+    docker compose exec web python manage.py migrate
+    docker compose exec web python manage.py createsuperuser
+
+API runs at http://localhost:8000 — health check at /api/health/
+
+## Running tests
+    docker compose exec web pytest
+
+## Project structure
+(short description of apps/ and config/)
+
+## Roles
+(short table: admin, supervisor, user, page)
+
+## Roadmap
+(checklist: auth, posts, pages, moderation, Celery, CI/CD, Kubernetes)

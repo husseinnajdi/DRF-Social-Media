@@ -42,7 +42,6 @@ class Follow(models.Model):
             ),
         ]
 
-
     def clean(self):
         if self.follower.role == "page":
             raise ValidationError("Page accounts cannot follow other accounts.")

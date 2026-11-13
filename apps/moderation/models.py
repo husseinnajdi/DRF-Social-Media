@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.db import models
 
-from core.choices import TargetType
+from apps.core.models import TargetType
 
 
 class AuditLog(models.Model):
@@ -12,7 +12,9 @@ class AuditLog(models.Model):
         on_delete=models.PROTECT,  # never lose the record of who did something
         related_name="audit_logs",
     )
-    action = models.CharField(max_length=100)  # e.g. delete_post, suspend_user, approve_badge
+    action = models.CharField(
+        max_length=100
+    )  # e.g. delete_post, suspend_user, approve_badge
     target_type = models.CharField(
         max_length=30, choices=TargetType.choices, null=True, blank=True
     )

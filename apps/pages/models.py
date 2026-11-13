@@ -34,7 +34,9 @@ class PageProfile(models.Model):
     def clean(self):
         # Only page accounts have a PageProfile
         if self.user.role != self.user.Role.PAGE:
-            raise ValidationError("Only accounts with role 'page' can have a PageProfile.")
+            raise ValidationError(
+                "Only accounts with role 'page' can have a PageProfile."
+            )
 
     def revoke_badge(self):
         """Remove the verified badge. Log the action (with a reason) in AuditLog."""

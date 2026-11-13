@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.db import models
 
-from core.choices import TargetType
+from apps.core.models import TargetType
 
 
 class NotificationQuerySet(models.QuerySet):

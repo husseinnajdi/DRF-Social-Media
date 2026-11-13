@@ -1,6 +1,8 @@
-from django.db import models
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.db import models
+
+
 class CommentQuerySet(models.QuerySet):
     def alive(self):
         """comments that have not been soft_deleted"""
@@ -12,19 +14,19 @@ class CommentQuerySet(models.QuerySet):
 
 
 class Comment(models.Model):
-    post=models.ForeignKey(
+    post = models.ForeignKey(
         "posts.Post",
         on_delete=models.CASCADE,
         related_name="comments",
     )
 
-    author=models.ForeignKey(
+    author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="comments",
     )
 
-    parent=models.ForeignKey(
+    parent = models.ForeignKey(
         "self",
         on_delete=models.CASCADE,
         related_name="replies",
@@ -32,11 +34,11 @@ class Comment(models.Model):
         blank=True,
     )
 
-    content=models.TextField()
+    content = models.TextField()
 
-    is_deleted=models.BooleanField(default=False)
+    is_deleted = models.BooleanField(default=False)
 
-    deleted_by=models.ForeignKey(
+    deleted_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         null=True,
         blank=True,
@@ -44,7 +46,7 @@ class Comment(models.Model):
         related_name="deleted_comments",
     )
 
-    created_at=models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     objects = CommentQuerySet.as_manager()
 
@@ -60,10 +62,11 @@ class Comment(models.Model):
             raise ValidationError(
                 "A reply must be on the same post as its parent comment."
             )
-    def soft_delete(self,by):
+
+    def soft_delete(self, by):
         self.is_deleted = True
-        self.deleted_by=by
-        self.save(update_fields=["is_deleted","deleted_by"])
+        self.deleted_by = by
+        self.save(update_fields=["is_deleted", "deleted_by"])
 
     @property
     def is_reply(self):
